@@ -24,19 +24,6 @@ jobs:
         run: docker build -t rokondoc/demo-react .
       - name: Publish image to docker hub
         run: docker push rokondoc/demo-react:latest
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Debugging Info
-        run: |
-          node --version
-          npm --version
-          git --version
-          git config --global --list
-          docker --version
-
           
   deploy:
     needs: build
