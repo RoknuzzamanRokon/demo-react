@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+/* Add this to your App.css file */
+.color-change {
+  transition: background-color 0.3s ease-in-out;
+}
+
+.bg-blue {
+  background-color: #3498db;
+}
+
+.bg-green {
+  background-color: #2ecc71;
+}
+
+/* Add more color classes as needed */
