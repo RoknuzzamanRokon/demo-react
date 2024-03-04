@@ -11,27 +11,28 @@ jobs:
     steps:
       - name: Checkout Source
         uses: actions/checkout@v3
-        with:
-          submodules: recursive
       - name: Configure Git
         run: |
           git config --global user.email "rokon.raz@gmail.com"
           git config --global user.name "RoknuzzamanRokon"
-      - name: Sync Submodules
-        run: git submodule sync
-      - name: Update Submodules
-        run: git submodule update --init --recursive
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - name: Install dependencies
-        run: npm install
-      - name: Build React App
-        run: npm run build
+          node-version: "14"
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       - name: Build Docker Image
         run: docker build -t rokondoc/demo-react .
       - name: Publish image to docker hub
         run: docker push rokondoc/demo-react:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull rokondoc/demo-react:latest
+      - name: Delete Old Container
+        run: docker rm -f reactContainer || true
+      - name: Run docker container
+        run: docker run -d -p 3000:80 --name reactContainer rokondoc/demo-react:latest
