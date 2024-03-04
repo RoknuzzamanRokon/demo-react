@@ -8,7 +8,7 @@ COPY . .
 RUN npm run build
 
 # Step 2: Use Nginx as the final image
-FROM nginx:1.13-alpine
+FROM nginx:1.23-alpine
 
 WORKDIR /usr/share/nginx/html
 
