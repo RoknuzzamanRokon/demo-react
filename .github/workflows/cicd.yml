@@ -17,7 +17,7 @@ jobs:
         run: docker build -t rokondoc/demo-react .
       - name: Publish image to docker hub
         run: docker push rokondoc/demo-react:latest
-
+ 
   deploy:
     needs: build
     runs-on: self-hosted
